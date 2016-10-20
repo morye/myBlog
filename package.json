@@ -8,7 +8,7 @@
   },
   "author": "Morye Kim",
   "license": "ISC",
-  "devDependencies": {s
+  "devDependencies": {
     "connect": "^3.5.0",
     "gulp": "3.9.1",
     "gulp-concat": "2.6.0",

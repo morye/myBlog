@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html ng-app="app">
+    <head>
+        <title>Morye's Sample App</title>
+        <link rel="stylesheet" type="text/css" href="./assets/libs/bootstrap/3.3.6/css/bootstrap.min.css" />
+        <link rel="stylesheet" type="text/css" href="./dist/css/main.css" />
+    </head>
+    <body>
+        <div id="head-container" class="container-fluid">
+            <div class="row head-top">
+                <div class="head-top-left col-xs-6">
+                    <div class="logo-container">
+                        <h1>My BLOG</h1>
+                    </div>
+                </div>
+                <div class="head-top-right col-xs-6">
+                    <user-control></user-control>
+                </div>
+            </div>
+        </div>
+        <div id="body-container" class="container-fluid">
+            <div class="row body-top">
+                <div class="col-xs-12">
+                </div>
+            </div>
+            <div class="row">
+                <div class="body-left col-xs-2"><left-menu></left-menu></div>
+                <div class="body-main col-xs-10" ng-view></div>
+            </div>
+        </div>
+        <div id="footer-container" class="container-fluid">
+            <div class="row">
+                <div class="footer-main col-xs-12">
+                    <p>&copy; Copyright <script>document.write(new Date().getFullYear());</script> My Blog Inc. All Rights Reserved.</p>
+                </div>
+            </div>
+        </div>
+        <loading></loading>
+
+        <script type="text/javascript" src="./dist/js/libs.js"></script>
+        <script type="text/javascript" src="./dist/js/app.js"></script>
+    </body>
+</html>

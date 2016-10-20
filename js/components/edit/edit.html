@@ -1,0 +1,15 @@
+<div ng-controller="EditController as ctrl">
+    <h2>Editing Post</h2>
+    <div class="">
+        <form>
+            <div class="inputSet">
+                <label for="title">Title</label>
+                <input class="input" type="text" id="title" ng-model="ctrl.data.title" />
+            </div>
+            <div class="inputSet">
+                <label for="text">Text</label>
+                <textarea class="input" rows="4" cols="50" id="text" ng-model="ctrl.data.text"></textarea>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,10 @@
+{
+    "userInfo":
+    {
+        "id": 100001,
+        "username":"mkim",
+        "firstName":"Morye",
+        "lastName":"Kim",
+        "type":"admin"
+    }
+}

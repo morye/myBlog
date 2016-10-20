@@ -1,0 +1,21 @@
+<div ng-controller="MainController as ctrl">
+
+    <div id="posts">
+        <div class="post" ng-repeat="post in ctrl.data track by $index">
+            <div id={{post.id}}>
+                <div class="header">
+                    <h3>{{post.title}}</h3>
+                    <span class="timeStamp">{{post.timestamp}}</span>
+                </div>
+                <div class="body">
+                    <p>{{post.text}}</p>
+                    <div class="control">
+                        <a href="/#/edit/{{post.id}}"><span>Edit</span></a> | <a href="/#/delete/{{post.id}}"><span>Delete</span></a>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>

@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Treatment Completion Probability</title>
+        <style>
+            body {
+                margin: 0;
+                padding: 0;
+                color: #000;
+                font-family: Suisse Intl,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol;
+            }
+            h1 {
+                background-color: #646464;
+                color: #fff;
+                padding: 10px 20px;
+                margin: 0;
+            }
+            .results {
+                display: flex;
+                flex-direction: row;
+                border-bottom: 1px solid #646464;
+                background-color: #eeeeee;
+                padding: 20px;
+            }
+            .section {
+                flex: 0 0 35%;
+                width: 100%;
+                height: 100px;
+                padding: 10px 30px;
+                margin-right: 5%;
+                background-color: #fff;
+                box-shadow: 1px 1px 2px 1px #c4c4c4;
+                border-radius: 5px;
+                border-bottom: 3px solid #3c97ff;
+                position: relative;
+            }
+            .section .percent {
+                font-size: 4rem;
+                color: #2b8eff;
+                white-space: nowrap;
+                position: absolute;
+                right: 20px;
+                bottom: 15px;
+            }
+            .section label {
+                display:block;
+                font-size: 1.5rem;
+                text-transform: uppercase;
+                font-weight: 500;
+                color:#7c7c7c;
+            }
+            .percent::after {
+                content:" %";
+            }
+            .content {
+                display: flex;
+                padding: 10px 20px;
+                flex-wrap: wrap;
+            }
+            .content .question {
+                flex: 0 0 45%;
+                margin: 0 5% 15px 0;
+            }
+            .content .question label {
+                display: block;
+                margin-bottom: 3px;
+                font-weight: 450;
+                font-size: 1.0rem;
+            }
+            .content .question select {
+                padding: 1px;
+                border-radius: 5px;
+                width: 100%;
+                font-size: 1.0rem;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Treatment Completion Probability</h1>
+        <div class="results">
+            <div class="section">
+                <label>Male</label>
+                <span class="percent" id="male">0</span>
+            </div>
+            <div class="section">
+                <label>Female</label>
+                <span class="percent" id="female">0</span>
+            </div>
+        </div>
+        <div class="content">
+            <div class="question">
+                <label>Marital Status</label>
+                <select>
+                    <option value="">Choose one</option>
+                    <option value="m=-0.02,f=-0.05">Never married</option>
+                    <option value="m=0.00,f=0.00">Now married</option>
+                    <option value="m=-0.07,f=-0.09">Separated</option>
+                    <option value="m=-0.04,f=-0.07">Divorced or widowed</option>
+                </select>
+            </div>
+            <div class="question">
+                <label>AGE</label>
+                <select>
+                    <option value="">Choose one</option>
+                    <option value="m=0.05,f=0.03">18 to 20 years</option>
+                    <option value="m=0.10,f=0.07">21 to 24 years</option>
+                    <option value="m=0.16,f=0.10">25 to 29 years</option>
+                    <option value="m=0.21,f=0.13">30 to 34 years</option>
+                    <option value="m=0.26,f=0.17">35 to 39 years</option>
+                    <option value="m=0.31,f=0.20">40 to 44 years</option>
+                    <option value="m=0.36,f=0.24">45 to 49 years</option>
+                    <option value="m=0.42,f=0.27">50 to 54 years</option>
+                    <option value="m=0.47,f=0.30">55 to 64 years</option>
+                    <option value="m=0.52,f=0.34">65+ years</option>
+                </select>
+            </div>
+            <div class="question">
+                <label>RACE</label>
+                <select>
+                    <option value="">Choose one</option>
+                    <option value="m=0.13,f=0.39">Alaska Native (Aleut, Eskimo, Indian)</option>
+                    <option value="m=0.41,f=0.27">American Indian (other than Alaska Native)</option>
+                    <option value="m=0.00,f=0.01">Asian or Pacific Islander</option>
+                    <option value="m=0.02,f=-0.01">Black or African American</option>
+                    <option value="m=0.02,f=-0.01">White</option>
+                    <option value="m=-0.17,f=-0.23">Asian</option>
+                    <option value="m=0.07,f=-0.07">Other single race</option>
+                    <option value="m=0.03,f=-0.07">Two or more races</option>
+                    <option value="m=-0.65,f=-0.50">Native Hawaiian or Other Pacific Islander</option>
+                </select>
+            </div>
+            <div class="question">
+                <label>Education</label>
+                <select>
+                    <option value="">Choose one</option>
+                    <option value="m=-0.03,f=0.03">No schooling</option>
+                    <option value="m=-0.03,f=0.03">Less than one school grade</option>
+                    <option value="m=-0.03,f=0.03">Nursery school, or kindergarten to Grade 8</option>
+                    <option value="m=-0.06,f=0.05">Grades 9 to 11</option>
+                    <option value="m=-0.10,f=0.08">Grade 12 (or GED)</option>
+                    <option value="m=-0.13,f=0.10">1-3 years of college, university, or vocational school</option>
+                    <option value="m=-0.16,f=0.13">4 years of college, university, BA/BS, some postgraduate study, or more</option>
+                </select>
+            </div>
+            <div class="question">
+                <label>Source of income</label>
+                <select>
+                    <option value="">Choose one</option>
+                    <option value="m=-0.06,f=-0.07">Wages/salary</option>
+                    <option value="m=-0.14,f=-0.08">Public assistance</option>
+                    <option value="m=0.11,f=0.05">Retirement/pension, disability</option>
+                    <option value="m=-0.06,f=-0.08">Other</option>
+                    <option value="m=0.02,f=-0.04">None</option>
+                </select>
+            </div>
+            <div class="question">
+                <label>Detailed Criminal Justice R.</label>
+                <select>
+                    <option value="">Choose one</option>
+                    <option value="m=0.01,f=-0.04">Null</option>
+                    <option value="m=-0.20,f=-0.08">State/federal court</option>
+                    <option value="m=-0.30,f=-0.45">Formal adjudication process</option>
+                    <option value="m=-0.40,f=-0.33">Probation/parole</option>
+                    <option value="m=0.00,f=-0.01">Other recognized legal entity</option>
+                    <option value="m=0.27,f=0.03">Diversionary program</option>
+                    <option value="m=-0.06,f=0.08">Prison</option>
+                    <option value="m=0.42,f=0.40">DUI/DWI</option>
+                    <option value="m=0.11,f=0.19">Other</option>
+                </select>
+            </div>
+            <div class="question">
+                <label>Employment Status</label>
+                <select>
+                    <option value="">Choose one</option>
+                    <option value="m=0.41,f=0.36">Full-time</option>
+                    <option value="m=0.02,f=0.09">Part-time</option>
+                    <option value="m=-0.25,f=-0.27">Unemployed</option>
+                    <option value="m=-0.32,f=-0.39">Not in labor force</option>
+                </select>
+            </div>
+            <div class="question">
+                <label>DSM Diagnosis</label>
+                <select>
+                    <option value="">Choose one</option>
+                    <option value="m=0.16,f=0.20">Alcohol-induced disorder</option>
+                    <option value="m=0.97,f=0.81">Substance-induced disorder</option>
+                    <option value="m=2.39,f=1.82">Alcohol intoxication</option>
+                    <option value="m=-0.29,f=-0.21">Alcohol dependence</option>
+                    <option value="m=-0.33,f=-0.36">Opioid dependence</option>
+                    <option value="m=-0.42,f=-0.39">Cocaine dependence</option>
+                    <option value="m=-0.22,f=-0.15">Cannabis dependence</option>
+                    <option value="m=-0.34,f=-0.39">Other substance dependence</option>
+                    <option value="m=0.29,f=0.36">Alcohol abuse</option>
+                    <option value="m=0.13,f=0.39">Cannabis abuse</option>
+                    <option value="m=-0.13,f=-0.06">Other substance abuse</option>
+                    <option value="m=-0.17,f=-0.07">Opioid abuse</option>
+                    <option value="m=-0.15,f=-0.16">Cocaine abuse</option>
+                    <option value="m=-0.39,f=-0.41">Anxiety disorders</option>
+                    <option value="m=-0.52,f=-0.59">Depressive disorders</option>
+                    <option value="m=-0.31,f=-0.23">Schizophrenia/other psychotic disorders</option>
+                    <option value="m=-0.32,f=-0.42">Attention deficit/disruptive behavior disorders</option>
+                    <option value="m=-0.11,f=-0.03">Other mental health condition</option>
+                    <option value="m=-0.36,f=-0.31">Bipolar disorders</option>
+                </select>
+            </div>
+            <div class="question">
+                <label>Substance Use1:Admission</label>
+                <select>
+                    <option value="">Choose one</option>
+                    <option value="m=0.26,f=0.00">Alcohol</option>
+                    <option value="m=0.07,f=0.00">Cocaine/crack</option>
+                    <option value="m=0.21,f=0.00">Marijuana/hashish</option>
+                    <option value="m=-0.30,f=0.00">Heroin</option>
+                    <option value="m=0.00,f=0.00">Non-prescription methadone</option>
+                    <option value="m=0.02,f=0.00">Other opiates and synthetics</option>
+                    <option value="m=-0.04,f=0.00">PCP</option>
+                    <option value="m=-0.04,f=0.00">Hallucinogens</option>
+                    <option value="m=-0.07,f=0.00">Methamphetamine/speed</option>
+                    <option value="m=-0.10,f=0.00">Other amphetamines</option>
+                    <option value="m=-0.02,f=0.00">Other stimulants</option>
+                    <option value="m=0.09,f=0.00">Benzodiazepines</option>
+                    <option value="m=-0.01,f=0.00">Other tranquilizers</option>
+                    <option value="m=0.13,f=0.00">Barbiturates</option>
+                    <option value="m=-0.01,f=0.00">Other sedatives or hypnotics</option>
+                    <option value="m=0.03,f=0.00">Inhalants</option>
+                    <option value="m=-0.03,f=0.00">Over-the-counter medications</option>
+                    <option value="m=-0.31,f=0.00">Other drugs</option>
+                </select>
+            </div>
+            <div class="question">
+                <label>Substance Use1: Discharge</label>
+                <select>
+                    <option value="">Choose one</option>
+                    <option value="m=0.64,f=0.54">None</option>
+                    <option value="m=0.03,f=0.12">Alcohol</option>
+                    <option value="m=-0.17,f=-0.07">Cocaine/crack</option>
+                    <option value="m=-0.07,f=-0.01">Marijuana/hashish</option>
+                    <option value="m=-0.02,f=-0.29">Heroin</option>
+                    <option value="m=0.05,f=-0.01">Non-prescription methadone</option>
+                    <option value="m=-0.20,f=-0.12">Other opiates and synthetics</option>
+                    <option value="m=-0.08,f=-0.04">PCP</option>
+                    <option value="m=-0.05,f=-0.13">Hallucinogens</option>
+                    <option value="m=-0.08,f=-0.14">Methamphetamine/speed</option>
+                    <option value="m=-0.04,f=-0.16">Other amphetamines</option>
+                    <option value="m=0.10,f=-0.02">Other stimulants</option>
+                    <option value="m=0.07,f=0.19">Benzodiazepines</option>
+                    <option value="m=-0.01,f=-0.01">Other tranquilizers</option>
+                    <option value="m=0.13,f=0.46">Barbiturates</option>
+                    <option value="m=-0.04,f=-0.01">Other sedatives or hypnotics</option>
+                    <option value="m=0.04,f=-0.01">Inhalants</option>
+                    <option value="m=-0.03,f=0.00">Over-the-counter medications</option>
+                    <option value="m=-0.38,f=-0.49">Other drugs</option>
+                </select>
+            </div>
+            <div class="question">
+                <label>Substance Use2: Discharge</label>
+                <select>
+                    <option value="">Choose one</option>
+                    <option value="m=0.00,f=0.39">None</option>
+                    <option value="m=0.00,f=0.09">Alcohol</option>
+                    <option value="m=0.00,f=-0.02">Cocaine/crack</option>
+                    <option value="m=0.00,f=-0.01">Marijuana/hashish</option>
+                    <option value="m=0.00,f=-0.03">Heroin</option>
+                    <option value="m=0.00,f=-0.13">Non-prescription methadone</option>
+                    <option value="m=0.00,f=-0.06">Other opiates and synthetics</option>
+                    <option value="m=0.00,f=-0.07">PCP</option>
+                    <option value="m=0.00,f=-0.04">Hallucinogens</option>
+                    <option value="m=0.00,f=-0.13">Methamphetamine/speed</option>
+                    <option value="m=0.00,f=-0.02">Other amphetamines</option>
+                    <option value="m=0.00,f=-0.10">Other stimulants</option>
+                    <option value="m=0.00,f=0.05">Benzodiazepines</option>
+                    <option value="m=0.00,f=-0.02">Other tranquilizers</option>
+                    <option value="m=0.00,f=-0.01">Barbiturates</option>
+                    <option value="m=0.00,f=-0.10">Other sedatives or hypnotics</option>
+                    <option value="m=0.00,f=0.01">Inhalants</option>
+                    <option value="m=0.00,f=-0.06">Over-the-counter medications</option>
+                    <option value="m=0.00,f=0.06">Other drugs</option>
+                </select>
+            </div>
+            <div class="question">
+                <label>FREQ ATND SELF HELP D</label>
+                <select>
+                    <option value="">Choose one</option>
+                    <option value="m=-0.46,f=-0.49">No attendance</option>
+                    <option value="m=-0.38,f=-0.36">Less than once a week</option>
+                    <option value="m=-0.01,f=-0.04"> About once a week</option>
+                    <option value="m=0.11,f=0.08">2 to 3 times a week</option>
+                    <option value="m=0.61,f=0.59">At least 4 times a week</option>
+                </select>
+            </div>
+            <div class="question">
+                <label>Type of Treatment Service</label>
+                <select>
+                    <option value="">Choose one</option>
+                    <option value="m=0.26,f=0.23">Detox, 24-hour, hospital inpatient</option>
+                    <option value="m=1.27,f=0.98">Detox, 24-hour, free-standing residential</option>
+                    <option value="m=0.13,f=0.08">Rehab/residential, hospital (non-detox)</option>
+                    <option value="m=-0.09,f=0.17">Rehab/residential, short term (30 days or fewer)</option>
+                    <option value="m=-0.96,f=-0.81">Rehab/residential, long term (more than 30 days)</option>
+                    <option value="m=-1.14,f=-1.08">Ambulatory, intensive outpatient</option>
+                    <option value="m=-1.32,f=-1.24">Ambulatory, non-intensive outpatient</option>
+                    <option value="m=1.70,f=1.45">Ambulatory, detoxification</option>
+                </select>
+            </div>
+            <div class="question">
+                <label>Type of Treatment Service D</label>
+                <select>
+                    <option value="">Choose one</option>
+                    <option value="m=0.26,f=0.23">Detox, 24-hour, hospital inpatient</option>
+                    <option value="m=0.46,f=0.68">Detox, 24-hour, free-standing residential</option>
+                    <option value="m=0.13,f=0.08">Rehab/residential, hospital (non-detox)</option>
+                    <option value="m=0.34,f=0.07">Rehab/residential, short term (30 days or fewer)</option>
+                    <option value="m=-0.88,f=-0.75">Rehab/residential, long term (more than 30 days)</option>
+                    <option value="m=-1.09,f=-1.11">Ambulatory, intensive outpatient</option>
+                    <option value="m=-1.05,f=-0.87">Ambulatory, non-intensive outpatient</option>
+                    <option value="m=1.70,f=1.45">Ambulatory, detoxification</option>
+                </select>
+            </div>
+            <div class="question">
+                <label>Length of Stay in Treatment</label>
+                <select>
+                    <option value="">Choose one</option>
+                    <option value="m=0.08,f=0.07">1 to 30 days</option>
+                    <option value="m=0.15,f=0.15">31 to 45 days</option>
+                    <option value="m=0.23,f=0.22">46 to 60 days</option>
+                    <option value="m=0.31,f=0.30">61 to 90 days</option>
+                    <option value="m=0.38,f=0.37">91 to 120 days</option>
+                    <option value="m=0.46,f=0.45">121 to 180 days</option>
+                    <option value="m=0.54,f=0.52">181 to 365 days</option>
+                    <option value="m=0.61,f=0.60">More than a year</option>
+                </select>
+            </div>
+            <div class="question">
+                <label>Frequency of Use: Admission</label>
+                <select>
+                    <option value="">Choose one</option>
+                    <option value="m=0.07,f=0.14">No use in the past month</option>
+                    <option value="m=0.15,f=0.28">Some use</option>
+                    <option value="m=0.22,f=0.42">Daily use</option>
+                </select>
+            </div>
+            <div class="question">
+                <label>Frequency of Use: Discharge</label>
+                <select>
+                    <option value="">Choose one</option>
+                    <option value="m=-0.65,f=-0.68">No use in the past month</option>
+                    <option value="m=-1.31,f=-1.36">Some use</option>
+                    <option value="m=-1.96,f=-2.04">Daily use</option>
+                </select>
+            </div>
+            <div class="question">
+                <label>Age at First Use: Primary</label>
+                <select>
+                    <option value="">Choose one</option>
+                    <option value="m=0.04,f=0.02">11 years and under</option>
+                    <option value="m=0.09,f=0.04">12 to 14 years</option>
+                    <option value="m=0.13,f=0.06">15 to 17 years</option>
+                    <option value="m=0.17,f=0.09">18 to 20 years</option>
+                    <option value="m=0.22,f=0.11">21 to 24 years</option>
+                    <option value="m=0.26,f=0.13">25 to 29 years</option>
+                    <option value="m=0.30,f=0.15">30 years and over</option>
+                </select>
+            </div>
+            <div class="question">
+                <label>Age at First Use: Secondary</label>
+                <select>
+                    <option value="">Choose one</option>
+                    <option value="m=-0.03,f=0.03">11 years and under</option>
+                    <option value="m=-0.06,f=0.05">12 to 14 years</option>
+                    <option value="m=-0.10,f=0.08">15 to 17 years</option>
+                    <option value="m=-0.13,f=0.10">18 to 20 years</option>
+                    <option value="m=-0.16,f=0.13">21 to 24 years</option>
+                    <option value="m=-0.19,f=0.15">25 to 29 years</option>
+                    <option value="m=-0.23,f=0.18">30 years and over</option>
+                </select>
+            </div>
+            <div class="question">
+                <label>Referral Source</label>
+                <select>
+                    <option value="">Choose one</option>
+                    <option value="m=-0.30,f=-0.34">Individual(includes self-referral)</option>
+                    <option value="m=-0.20,f=-0.11">Alcohol/drug use care provider</option>
+                    <option value="m=-0.43,f=-0.36">Other health care provider</option>
+                    <option value="m=0.19,f=0.17">School (educational)</option>
+                    <option value="m=0.33,f=0.12">Employer/EAP</option>
+                    <option value="m=-0.12,f=-0.01">Other community referral</option>
+                    <option value="m=0.39,f=0.33">Court/criminal justice referral/DUI/DWI</option>
+                </select>
+            </div>
+            <div class="question">
+                <label>Year of Discharge</label>
+                <select>
+                    <option value="">Choose one</option>
+                    <option value="m=0.05,f=0.03">2015</option>
+                    <option value="m=0.13,f=0.11">2016</option>
+                    <option value="m=-0.07,f=-0.06">2017</option>
+                    <option value="m=-0.05,f=-0.05">2018</option>
+                    <option value="m=-0.11,f=-0.15">2019</option>
+                    <option value="m=-0.08,f=-0.10">2020</option>
+                </select>
+            </div>
+           
+        </div>
+        <script type="text/javascript">
+            let fieldMale = document.querySelector("#male");
+            let fieldFemale = document.querySelector("#female");
+
+            const calculate = function (field, value) {
+                return 1/(1+Math.exp((parseFloat(field.innerHTML) + parseFloat(value)) * -1));
+            }
+            const init = function () {
+                let selectFields = document.querySelectorAll("select");
+                for (let x=0; x<selectFields.length; x++) {
+                    selectFields[x].addEventListener("change", function(evt){
+                        fieldMale.innerHTML = 0;
+                        fieldFemale.innerHTML = 0;
+                        for (let y=0; y<selectFields.length; y++) {
+                            let values = selectFields[y].value ? selectFields[y].value.split(",") : [];
+                            if (values.length) {
+                                let v1 = values[0].split("=");
+                                let v2 = values[1].split("=");
+                                if (v1[0] === "m") {
+                                    fieldMale.innerHTML = calculate(fieldMale, v1[1]);
+                                } else {
+                                    fieldFemale.innerHTML = calculate(fieldFemale, v1[1]);
+                                }
+                                if (v2[0] === "m") {
+                                    fieldMale.innerHTML = calculate(fieldMale, v2[1]);
+                                } else {
+                                    fieldFemale.innerHTML = calculate(fieldFemale, v2[1]);
+                                }
+                                console.log("male:"+fieldMale.innerHTML + "\nfemale:"+fieldFemale.innerHTML);
+                            }
+                        }
+                        fieldMale.innerHTML = (parseFloat(fieldMale.innerHTML) * 100).toFixed(1);
+                        fieldFemale.innerHTML = (parseFloat(fieldFemale.innerHTML) * 100).toFixed(1);
+                        console.log("---------");
+                    });
+                }
+            }
+            init();
+        </script>
+    </body>
+</html>
